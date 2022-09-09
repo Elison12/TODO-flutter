@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:todo_app/models/clip.dart';
 import 'package:todo_app/models/task_model.dart';
-
 import '../db/notes_database.dart';
-import '../models/medicamentos.dart';
 import '../models/note.dart';
 import 'addTask_page.dart';
 
@@ -37,13 +33,13 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     NoteDataBase.instance.close();
     super.dispose();
-  }
+    }
 
   Future refreshNotes() async {
     setState(() => isLoading = true);
-    this.notes = await NoteDataBase.instance.readAllNotes();
+    notes = await NoteDataBase.instance.readAllNotes();
 
-    setState(() => isLoading == false);
+    setState(() => isLoading = false);
   }
 
   void _handleIndexChanged(int i) {
@@ -178,7 +174,16 @@ class _HomePageState extends State<HomePage> {
       //       child: tasks_list()),
       //   ],
       // ),
-      body: Center(child: tasks_list()),
+      body: Center(
+        child: isLoading
+            ? CircularProgressIndicator()
+            : notes.isEmpty
+                ? Text(
+                    'No Notes',
+                    style: TextStyle(color: Colors.redAccent, fontSize: 24),
+                  )
+                : tasks_list(),
+      ),
       bottomNavigationBar: DotNavigationBar(
         currentIndex: _SelectedTab.values.indexOf(_selectedTab),
         onTap: _handleIndexChanged,
@@ -202,13 +207,13 @@ class _HomePageState extends State<HomePage> {
   // ignore: non_constant_identifier_names
   ListView tasks_list() {
     return ListView.separated(
-          itemCount: notes.length,
-          itemBuilder: (BuildContext context, int index) {
-            final note = notes[index];
-            return NoteCardWidget(note: note, index: index, notes: notes);
-            // return Clip();
-          },
-          separatorBuilder: (context, int index) => const SizedBox(height: 8),
-      );
+      itemCount: notes.length,
+      itemBuilder: (BuildContext context, int index) {
+        final note = notes[index];
+        return NoteCardWidget(note: note, index: index, notes: notes);
+        // return Clip();
+      },
+      separatorBuilder: (context, int index) => const SizedBox(height: 8),
+    );
   }
 }

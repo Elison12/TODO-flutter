@@ -25,7 +25,7 @@ class NoteCardWidget extends StatelessWidget {
             Scaffold.of(context)
                 .showSnackBar(const SnackBar(behavior: SnackBarBehavior.floating, content: Text("Concluida")));
           },
-          background: UnconstrainedBox(
+          background: const UnconstrainedBox(
                 alignment: Alignment.centerRight,
                 constrainedAxis: Axis.vertical,
               ),
