@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
             : notes.isEmpty
                 ? Text(
                     'No Notes',
-                    style: TextStyle(color: Colors.redAccent, fontSize: 24),
+                    style: const TextStyle(color: Colors.redAccent, fontSize: 24),
                   )
                 : tasks_list(),
       ),
@@ -211,7 +211,6 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (BuildContext context, int index) {
         final note = notes[index];
         return NoteCardWidget(note: note, index: index, notes: notes);
-        // return Clip();
       },
       separatorBuilder: (context, int index) => const SizedBox(height: 8),
     );

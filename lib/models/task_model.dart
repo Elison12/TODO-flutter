@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'note.dart';
 
+final _lightscolors = [
+ Colors.amber.shade300,
+  Colors.lightGreen.shade300,
+  Colors.lightBlue.shade300,
+  Colors.orange.shade300,
+  Colors.pinkAccent.shade100,
+  Colors.tealAccent.shade100
+];
+
 class NoteCardWidget extends StatelessWidget {
   final Note note;
   final int index;
@@ -12,11 +21,11 @@ class NoteCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = _lightscolors[index % _lightscolors.length];
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Dismissible(
           key: Key("$index"),
           direction: DismissDirection.endToStart,
@@ -31,7 +40,7 @@ class NoteCardWidget extends StatelessWidget {
               ),
           secondaryBackground: Container(
             child: Container(
-              margin: EdgeInsets.only(right: 10),
+              margin: EdgeInsets.only(right: 50),
               alignment: Alignment.centerRight,
               child: Icon(Icons.done),
             ),
@@ -41,8 +50,6 @@ class NoteCardWidget extends StatelessWidget {
                     Colors.green,
                     Colors.greenAccent,
                   ]),
-                  // color: Colors.green,
-                  // borderRadius: BorderRadius.circular(50)
               )
           ),
           child: Container(
@@ -54,17 +61,22 @@ class NoteCardWidget extends StatelessWidget {
                   Colors.greenAccent,
                 ],
               ),
-              // borderRadius: BorderRadius.circular(50),
             ),
-            child: const Card(
+            
+            child: Container(
+              width: 350,
+              color: color,
               //a cor da task é aqui
-                margin: EdgeInsets.zero,
-                child: Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: ListTile(title: Text("const")))),
+                margin: EdgeInsets.only(left: 0),
+                child: const Padding(
+                    // padding: EdgeInsets.all(60),
+                    padding: EdgeInsets.all(27),
+                    child: Text("Const")
+                )
+            ),
+            ),
           ),
         ),
-      ),
     );
   }
 }
