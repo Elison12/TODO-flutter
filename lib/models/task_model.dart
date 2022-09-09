@@ -1,28 +1,70 @@
 import 'package:flutter/material.dart';
+import 'note.dart';
 
+class NoteCardWidget extends StatelessWidget {
+  final Note note;
+  final int index;
+  final List notes;
 
-Card buildTaskModel({required Color color, required String imagepath, required}) {
-  return Card(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-    child: Container(
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(14)),
-      height: 150,
-      width: 400,
-      padding:  const EdgeInsets.only(left: 20, top: 60),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("data", style: TextStyle(fontSize: 20, color: Colors.grey),),
-              Text("title", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.white),)
-            ],
+  const NoteCardWidget(
+      {Key? key, required this.note, required this.index, required this.notes})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Dismissible(
+          key: Key("$index"),
+          direction: DismissDirection.endToStart,
+          onDismissed: (direction) {
+            notes.removeAt(index);
+            Scaffold.of(context)
+                .showSnackBar(const SnackBar(behavior: SnackBarBehavior.floating, content: Text("Concluida")));
+          },
+          background: UnconstrainedBox(
+                alignment: Alignment.centerRight,
+                constrainedAxis: Axis.vertical,
+              ),
+          secondaryBackground: Container(
+            child: Container(
+              margin: EdgeInsets.only(right: 10),
+              alignment: Alignment.centerRight,
+              child: Icon(Icons.done),
+            ),
+              decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  gradient: const LinearGradient(colors: [
+                    Colors.green,
+                    Colors.greenAccent,
+                  ]),
+                  // color: Colors.green,
+                  // borderRadius: BorderRadius.circular(50)
+              )
           ),
-          // Container(height: 100, width: 200, child: Image.asset("assets/images/tasks_card.png"))
-          Container(height: 100, width: 200, child: Image.asset(imagepath))
-        ],
+          child: Container(
+            decoration: ShapeDecoration(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              gradient: const LinearGradient(
+                colors: [
+                  Colors.green,
+                  Colors.greenAccent,
+                ],
+              ),
+              // borderRadius: BorderRadius.circular(50),
+            ),
+            child: const Card(
+              //a cor da task é aqui
+                margin: EdgeInsets.zero,
+                child: Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: ListTile(title: Text("const")))),
+          ),
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

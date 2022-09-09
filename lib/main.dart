@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/pages/HomePage.dart';
+import 'package:flutter/services.dart';
+import 'package:todo_app/pages/home_page.dart';
 
 Color white = const Color(0xFFFFFFFF);
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(const MyApp());
 }
 
@@ -16,10 +22,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
-
