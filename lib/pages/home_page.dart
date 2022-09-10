@@ -1,3 +1,4 @@
+import 'package:animated_horizontal_calendar/animated_horizontal_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -5,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:todo_app/models/task_model.dart';
 import '../db/notes_database.dart';
 import '../models/note.dart';
+import '../widget/calendar_widget.dart';
 import 'addTask_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -179,17 +181,30 @@ class _HomePageState extends State<HomePage> {
       //       child: tasks_list()),
       //   ],
       // ),
-      body: Center(
-        child: isLoading
-            ? CircularProgressIndicator()
-            : notes.isEmpty
-                ? Text(
-                    'No Notes',
-                    style:
-                        const TextStyle(color: Colors.redAccent, fontSize: 24),
-                  )
-                : tasks_list(),
-      ),
+      body: Column(children: [
+        // calendarWidget(),
+        Expanded(
+          child: isLoading
+              ? CircularProgressIndicator()
+              : notes.isEmpty
+                  ? const Text(
+                      'No Notes',
+                      style: TextStyle(color: Colors.redAccent, fontSize: 24),
+                    )
+                  : tasks_list(),
+        ),
+      ]),
+      // Center(
+      //   child: isLoading
+      //       ? CircularProgressIndicator()
+      //       : notes.isEmpty
+      //           ? const Text(
+      //               'No Notes',
+      //               style:
+      //                   TextStyle(color: Colors.redAccent, fontSize: 24),
+      //             )
+      //           : tasks_list(),
+      // ),
       bottomNavigationBar: DotNavigationBar(
         currentIndex: _SelectedTab.values.indexOf(_selectedTab),
         onTap: _handleIndexChanged,
@@ -219,6 +234,30 @@ class _HomePageState extends State<HomePage> {
         return NoteCardWidget(note: note, index: index, notes: notes);
       },
       separatorBuilder: (context, int index) => const SizedBox(height: 8),
+    );
+  }
+
+  Container calendarWidget() {
+    return Container(
+      height: 100,
+      child: AnimatedHorizontalCalendar(
+          tableCalenderIcon: Icon(
+            Icons.calendar_today,
+            color: Colors.white,
+          ),
+          date: DateTime.now(),
+          textColor: Colors.black45,
+          backgroundColor: Colors.white,
+          tableCalenderThemeData: ThemeData.light().copyWith(
+            primaryColor: Colors.green,
+            accentColor: Colors.red,
+            colorScheme: ColorScheme.light(primary: Colors.green),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          selectedColor: Colors.redAccent,
+          onDateSelected: (date) {
+            // selectedDate = date;
+          }),
     );
   }
 }

@@ -69,22 +69,22 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(14))),
                 )),
-            Container(
-              margin: EdgeInsets.only(right: 300),
-              child: IconButton(
-                onPressed: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime.now(),
-                      maxTime: DateTime(2022, 12, 12), onChanged: (date) {
-                    print('change $date');
-                  }, onConfirm: (date) {
-                    print('confirm $date');
-                  }, currentTime: DateTime.now(), locale: LocaleType.pt);
-                },
-                icon: const Icon(Icons.calendar_month),
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.only(right: 300),
+            //   child: IconButton(
+            //     onPressed: () {
+            //       DatePicker.showDatePicker(context,
+            //           showTitleActions: true,
+            //           minTime: DateTime.now(),
+            //           maxTime: DateTime(2022, 12, 12), onChanged: (date) {
+            //         print('change $date');
+            //       }, onConfirm: (date) {
+            //         print('confirm $date');
+            //       }, currentTime: DateTime.now(), locale: LocaleType.pt);
+            //     },
+            //     icon: const Icon(Icons.calendar_month),
+            //   ),
+            // ),
           ],
         ),
       );
@@ -110,13 +110,13 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
     final isFormValid = title.isNotEmpty && description.isNotEmpty;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             onPrimary: Colors.white,
             primary: isFormValid ? null : Colors.grey.shade700),
         onPressed: addOrUpdateNote,
-        child: Text('Save'),
+        child: const Text('Save'),
       ),
     );
   }
