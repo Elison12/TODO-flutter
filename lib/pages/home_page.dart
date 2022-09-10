@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/models/task_model.dart';
 import '../db/notes_database.dart';
 import '../models/note.dart';
@@ -19,6 +20,8 @@ class _HomePageState extends State<HomePage> {
   var _selectedTab = _SelectedTab.tasks;
   late List<Note> notes;
   bool isLoading = false;
+
+  DateTime time = DateTime.now();
   // List todos = List();
 
   late final String date;
@@ -33,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     NoteDataBase.instance.close();
     super.dispose();
-    }
+  }
 
   Future refreshNotes() async {
     setState(() => isLoading = true);
@@ -112,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.grey,
                             )),
                       ),
-                      Container(child: const Text("data aqui"))
+                      // Container(child: Text(DateFormat("EEEE", "pt_BR").format(data)))
                     ],
                   ),
                   Container(
@@ -155,15 +158,17 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Colors.white,
-          title: const Text("Data de hoje",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
+          title: Text(DateFormat("EEEE", "pt_BR").format(time),
+              style: const TextStyle(
+                fontFamily: "Cardo-regular",
+                color: Colors.blueGrey,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              )),
           actions: [
             IconButton(
               onPressed: () {},
-              icon: const Icon(Icons.search, color: Colors.black),
+              icon: const Icon(Icons.search, color: Colors.blueGrey),
             )
           ]),
       // body: Flex(
@@ -180,7 +185,8 @@ class _HomePageState extends State<HomePage> {
             : notes.isEmpty
                 ? Text(
                     'No Notes',
-                    style: const TextStyle(color: Colors.redAccent, fontSize: 24),
+                    style:
+                        const TextStyle(color: Colors.redAccent, fontSize: 24),
                   )
                 : tasks_list(),
       ),
