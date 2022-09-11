@@ -36,7 +36,7 @@ class NoteCardWidget extends StatelessWidget {
           onDismissed: (direction) {
             // notes.removeAt(index);
             notes.remove(index);
-            Scaffold.of(context).showSnackBar(const SnackBar(
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 behavior: SnackBarBehavior.floating,
                 content: Text("Concluída")));
           },
@@ -53,7 +53,7 @@ class NoteCardWidget extends StatelessWidget {
               decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
-                gradient: const LinearGradient(colors: [
+                gradient: LinearGradient(colors: [
                   Colors.green,
                   Colors.greenAccent,
                 ]),
@@ -62,7 +62,7 @@ class NoteCardWidget extends StatelessWidget {
             decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [
                   Colors.green,
                   Colors.greenAccent,

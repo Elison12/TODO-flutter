@@ -1,12 +1,9 @@
-import 'package:animated_horizontal_calendar/animated_horizontal_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/models/task_model.dart';
 import '../db/notes_database.dart';
 import '../models/note.dart';
-import '../widget/calendar_widget.dart';
 import 'addTask_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -53,105 +50,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  showAddTask() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  20.0,
-                ),
-              ),
-            ),
-            contentPadding: const EdgeInsets.only(
-              top: 10.0,
-            ),
-            title: const Text(
-              "Adicionar tarefa",
-              style: TextStyle(fontSize: 24.0),
-            ),
-            content: Container(
-              height: 400,
-              child: SingleChildScrollView(
-                child: Column(children: [
-                  Container(
-                    child: const TextField(
-                      decoration: InputDecoration(
-                          hintText: "Titulo",
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide.none)),
-                    ),
-                  ),
-                  Container(
-                      child: TextField(
-                    minLines: 1,
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                        hintText: "O que você está planejando ?",
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(14))),
-                  )),
-                  Row(
-                    children: [
-                      Container(
-                        width: 45,
-                        child: TextButton(
-                            onPressed: () {
-                              DatePicker.showDatePicker(context,
-                                  showTitleActions: true,
-                                  minTime: DateTime.now(),
-                                  maxTime: DateTime(2022, 12, 12),
-                                  onChanged: (date) {
-                                print('change $date');
-                              }, onConfirm: (date) {
-                                print('confirm $date');
-                              },
-                                  currentTime: DateTime.now(),
-                                  locale: LocaleType.pt);
-                            },
-                            child: const Icon(
-                              Icons.calendar_month,
-                              color: Colors.grey,
-                            )),
-                      ),
-                      // Container(child: Text(DateFormat("EEEE", "pt_BR").format(data)))
-                    ],
-                  ),
-                  Container(
-                      margin: const EdgeInsets.only(right: 235),
-                      width: 45,
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.notification_add,
-                              color: Colors.grey))),
-                  Container(
-                    margin: const EdgeInsets.only(top: 100),
-                    height: 40.0,
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14.0),
-                          side:
-                              const BorderSide(color: const Color(0xFF72b41a))),
-                      onPressed: () {},
-                      padding: const EdgeInsets.all(10.0),
-                      color: const Color(0xFF72b41a),
-                      textColor: Colors.white,
-                      child: const Text("Confirmar",
-                          style: const TextStyle(fontSize: 15)),
-                    ),
-                  ),
-                ]),
-              ),
-            ),
-          );
-        });
-  }
-
-  // ignore: deprecated_member_use
-
   // List<Card> todos = List<Card>.generate(10, (int index) => index);
 
   @override
@@ -173,14 +71,7 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.search, color: Colors.blueGrey),
             )
           ]),
-      // body: Flex(
-      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //   direction: Axis.vertical,
-      //   children: <Widget>[
-      //     Expanded(
-      //       child: tasks_list()),
-      //   ],
-      // ),
+
       body: Column(children: [
         // calendarWidget(),
         Expanded(
@@ -240,24 +131,24 @@ class _HomePageState extends State<HomePage> {
   Container calendarWidget() {
     return Container(
       height: 100,
-      child: AnimatedHorizontalCalendar(
-          tableCalenderIcon: Icon(
-            Icons.calendar_today,
-            color: Colors.white,
-          ),
-          date: DateTime.now(),
-          textColor: Colors.black45,
-          backgroundColor: Colors.white,
-          tableCalenderThemeData: ThemeData.light().copyWith(
-            primaryColor: Colors.green,
-            accentColor: Colors.red,
-            colorScheme: ColorScheme.light(primary: Colors.green),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
-          selectedColor: Colors.redAccent,
-          onDateSelected: (date) {
-            // selectedDate = date;
-          }),
+      // child: AnimatedHorizontalCalendar(
+      //     tableCalenderIcon: Icon(
+      //       Icons.calendar_today,
+      //       color: Colors.white,
+      //     ),
+      //     date: DateTime.now(),
+      //     textColor: Colors.black45,
+      //     backgroundColor: Colors.white,
+      //     tableCalenderThemeData: ThemeData.light().copyWith(
+      //       primaryColor: Colors.green,
+      //       accentColor: Colors.red,
+      //       colorScheme: ColorScheme.light(primary: Colors.green),
+      //       buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+      //     ),
+      //     selectedColor: Colors.redAccent,
+      //     onDateSelected: (date) {
+      //       // selectedDate = date;
+      //     }),
     );
   }
 }

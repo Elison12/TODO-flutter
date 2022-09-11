@@ -32,18 +32,18 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Nova tarefa', style: TextStyle(color: Colors.blueGrey),),
-          leading: GestureDetector(
-              child: const Icon(
-                Icons.close,
-                color: Colors.blueGrey,
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              }),
+          // leading: GestureDetector(
+          //     child: const Icon(
+          //       Icons.close,
+          //       color: Colors.blueGrey,
+          //     ),
+          //     onTap: () {
+          //       Navigator.pop(context);
+          //     }),
           // foregroundColor: Colors.blueGrey,
           backgroundColor: Colors.white,
           elevation: 0.0,
-          actions: [builderButton()],
+          // actions: [builderButton()],
         ),
         body: ListView(
           padding: const EdgeInsets.all(8.0),
@@ -69,42 +69,26 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(14))),
                 )),
-            // Container(
-            //   margin: EdgeInsets.only(right: 300),
-            //   child: IconButton(
-            //     onPressed: () {
-            //       DatePicker.showDatePicker(context,
-            //           showTitleActions: true,
-            //           minTime: DateTime.now(),
-            //           maxTime: DateTime(2022, 12, 12), onChanged: (date) {
-            //         print('change $date');
-            //       }, onConfirm: (date) {
-            //         print('confirm $date');
-            //       }, currentTime: DateTime.now(), locale: LocaleType.pt);
-            //     },
-            //     icon: const Icon(Icons.calendar_month),
-            //   ),
-            // ),
+            Container(
+              margin: const EdgeInsets.only(right: 300),
+              child: IconButton(
+                onPressed: () {
+                  DatePicker.showDatePicker(context,
+                      showTitleActions: true,
+                      minTime: DateTime.now(),
+                      maxTime: DateTime(2022, 12, 12), onChanged: (date) {
+                    print('change $date');
+                  }, onConfirm: (date) {
+                    print('confirm $date');
+                  }, currentTime: DateTime.now(), locale: LocaleType.pt);
+                },
+                icon: const Icon(Icons.calendar_month),
+              ),
+            ),
+            buttomConfirm()
           ],
         ),
       );
-
-  Form Formwidget() {
-    return Form(
-        key: _formKey,
-        child: NoteFormWidget(
-          // isImportant: isImportant,
-          // number: number,
-          title: title,
-          description: description,
-          onChangedImportant: (isImportant) =>
-              setState(() => this.isImportant = isImportant),
-          onChangedNumber: (number) => setState(() => this.number = number),
-          onChangedTitle: (title) => setState(() => this.title = title),
-          onChangedDescription: (description) =>
-              setState(() => this.description = description),
-        ));
-  }
 
   Widget builderButton() {
     final isFormValid = title.isNotEmpty && description.isNotEmpty;
@@ -113,11 +97,19 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-            onPrimary: Colors.white,
-            primary: isFormValid ? null : Colors.grey.shade700),
+            foregroundColor: Colors.white, backgroundColor: isFormValid ? null : Colors.grey.shade700),
         onPressed: addOrUpdateNote,
         child: const Text('Save'),
       ),
+    );
+  }
+
+  Container buttomConfirm() {
+    return Container(
+      height: 50,
+      color: Colors.amber,
+      child: TextButton(onPressed: addNote,
+      child: Icon(Icons.confirmation_number_sharp)),
     );
   }
 
@@ -148,5 +140,6 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       createdTime: DateTime.now(),
     );
     await NoteDataBase.instance.create(note);
+    Navigator.of(context).pop();
   }
 }
