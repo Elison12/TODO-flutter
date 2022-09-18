@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+import 'package:todov2/stores/newtask_store.dart';
 
 import 'pages/home_page.dart';
 
@@ -22,11 +24,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeDateFormatting('pt_BR', null);
 
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
-        ),
-        home: const HomePage());
+    return Provider<NewTaskStore>(
+      create: (_) => NewTaskStore(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blueGrey,
+          ),
+          home: const HomePage()),
+    );
   }
 }

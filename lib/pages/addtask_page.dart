@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 import 'package:todov2/db/tasks_database.dart';
+import 'package:todov2/stores/newtask_store.dart';
 import '../models/task.dart';
 
 class AddTaskPage extends StatefulWidget {
-
   final Task? task;
   const AddTaskPage({super.key, this.task});
 
@@ -21,14 +23,35 @@ class _AddTaskPageState extends State<AddTaskPage> {
   late String title;
   late String description;
 
+  late NewTaskStore _newTaskStore;
+
+  late ReactionDisposer disposer;
+
+  @override
+  void dispose(){
+    disposer();
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _newTaskStore = Provider.of<NewTaskStore>(context);
+
+    disposer = autorun((_){
+      Navigator.pop(context);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     title = widget.task?.title ?? '';
     description = widget.task?.description ?? '';
   }
-  
-    @override
+
+  @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -53,7 +76,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           children: <Widget>[
             Container(
                 decoration: const BoxDecoration(color: Colors.transparent),
-                child: Observer(builder: (_) {
+                child: Observer(builder: (context) {
                   return const TextField(
                       decoration: InputDecoration(
                           hintText: "Titulo",
@@ -64,15 +87,17 @@ class _AddTaskPageState extends State<AddTaskPage> {
             Container(
                 height: 150,
                 decoration: const BoxDecoration(color: Colors.transparent),
-                child: TextField(
-                  minLines: 1,
-                  maxLines: 5,
-                  decoration: InputDecoration(
-                      hintText: "O que você está planejando ?",
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(14))),
-                )),
+                child: Observer(builder: (context) {
+                  return TextField(
+                      onChanged: _newTaskStore.setdescription,
+                      minLines: 1,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                          hintText: "O que você está planejando ?",
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(14))));
+                })),
             Container(
               margin: const EdgeInsets.only(right: 300),
               child: IconButton(
@@ -96,22 +121,26 @@ class _AddTaskPageState extends State<AddTaskPage> {
   Widget builderButton() {
     final isFormValid = title.isNotEmpty && description.isNotEmpty;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: isFormValid ? null : Colors.grey.shade700),
-        onPressed: addOrUpdateNote,
-        child: const Text('Save'),
-      ),
+    return Observer(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: isFormValid ? null : Colors.grey.shade700),
+          onPressed: addOrUpdateNote,
+          child: const Text('Save'),
+        ),
+      );}
     );
   }
 
   Container buttomConfirm() {
     return Container(
+      decoration: BoxDecoration(
+        color: _newTaskStore.titleisvalid && _newTaskStore.descriptionvalid ? Colors.amber[400] : Colors.amber[50] 
+      ),
       height: 50,
-      color: Colors.amber,
       child: TextButton(
           onPressed: addNote, child: Icon(Icons.confirmation_number_sharp)),
     );
