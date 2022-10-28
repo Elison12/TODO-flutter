@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 import 'package:todov2/db/tasks_database.dart';
-import 'package:todov2/stores/newtask_store.dart';
+import '../bloc/crud_bloc.dart';
 import '../models/task.dart';
 
 class AddTaskPage extends StatefulWidget {
@@ -23,26 +23,24 @@ class _AddTaskPageState extends State<AddTaskPage> {
   late String title;
   late String description;
 
-  late NewTaskStore _newTaskStore;
-
-  late ReactionDisposer disposer;
+  final TextEditingController _title = TextEditingController();
+  final TextEditingController _description = TextEditingController();
 
   @override
-  void dispose(){
-    disposer();
+  void dispose() {
     super.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
 
-    _newTaskStore = Provider.of<NewTaskStore>(context);
+  //   _newTaskStore = Provider.of<NewTaskStore>(context);
 
-    disposer = autorun((_){
-      Navigator.pop(context);
-    });
-  }
+  //   disposer = autorun((_) {
+  //     Navigator.pop(context);
+  //   });
+  // }
 
   @override
   void initState() {
@@ -76,28 +74,25 @@ class _AddTaskPageState extends State<AddTaskPage> {
           children: <Widget>[
             Container(
                 decoration: const BoxDecoration(color: Colors.transparent),
-                child: Observer(builder: (context) {
-                  return const TextField(
-                      decoration: InputDecoration(
-                          hintText: "Titulo",
-                          border:
-                              OutlineInputBorder(borderSide: BorderSide.none)));
-                })),
+                child: TextField(
+                    controller: _title,
+                    decoration: const InputDecoration(
+                        hintText: "Titulo",
+                        border:
+                            OutlineInputBorder(borderSide: BorderSide.none)))),
             const Divider(),
             Container(
                 height: 150,
                 decoration: const BoxDecoration(color: Colors.transparent),
-                child: Observer(builder: (context) {
-                  return TextField(
-                      onChanged: _newTaskStore.setdescription,
-                      minLines: 1,
-                      maxLines: 5,
-                      decoration: InputDecoration(
-                          hintText: "O que você está planejando ?",
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(14))));
-                })),
+                child: TextField(
+                    controller: _description,
+                    minLines: 1,
+                    maxLines: 5,
+                    decoration: InputDecoration(
+                        hintText: "O que você está planejando ?",
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(14))))),
             Container(
               margin: const EdgeInsets.only(right: 300),
               child: IconButton(
@@ -114,35 +109,56 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 icon: const Icon(Icons.calendar_month),
               ),
             ),
-            buttomConfirm()
+            Container(
+              child:
+                  BlocBuilder<CrudBloc, CrudState>(builder: (context, state) {
+                return ElevatedButton(
+                  child: Text('Salvar'),
+                  style:
+                      ElevatedButton.styleFrom(foregroundColor: Colors.white),
+                  onPressed: () {
+                    if (_title.text.isNotEmpty &&
+                        _description.text.isNotEmpty) {
+                      context.read<CrudBloc>().add(
+                            AddTodo(
+                              title: _title.text,
+                              id: 0,
+                              description: _description.text,
+                              createdTime: DateTime.now(),
+                            ),
+                          );
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        duration: Duration(seconds: 1),
+                        content: Text("todo added successfully"),
+                      ));
+                      context.read<CrudBloc>().add(const FetchTodos());
+                      Navigator.pop(context);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            "title and description fields must not be blank"
+                                .toUpperCase()),
+                      ));
+                    }
+                  },
+                );
+              }),
+            )
           ],
         ),
       );
   Widget builderButton() {
     final isFormValid = title.isNotEmpty && description.isNotEmpty;
 
-    return Observer(builder: (context) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: isFormValid ? null : Colors.grey.shade700),
-          onPressed: addOrUpdateNote,
-          child: const Text('Save'),
-        ),
-      );}
-    );
-  }
-
-  Container buttomConfirm() {
-    return Container(
-      decoration: BoxDecoration(
-        color: _newTaskStore.titleisvalid && _newTaskStore.descriptionvalid ? Colors.amber[400] : Colors.amber[50] 
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: isFormValid ? null : Colors.grey.shade700),
+        onPressed: addOrUpdateNote,
+        child: const Text('Save'),
       ),
-      height: 50,
-      child: TextButton(
-          onPressed: addNote, child: Icon(Icons.confirmation_number_sharp)),
     );
   }
 

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
+import 'package:todov2/bloc/crud_bloc.dart';
+import 'package:todov2/pages/addtask_page.dart';
 import '../db/tasks_database.dart';
 import '../models/task.dart';
 import '../widgets/taskcard_widget.dart';
-import 'addTask_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = false;
 
   DateTime time = DateTime.now();
-  // List todos = List();
 
   late final String date;
 
@@ -70,31 +70,31 @@ class _HomePageState extends State<HomePage> {
               icon: const Icon(Icons.search, color: Colors.blueGrey),
             )
           ]),
-
-      body: Column(children: [
-        // calendarWidget(),
-        Expanded(
-          child: isLoading
-              ? CircularProgressIndicator()
-              : tasks.isEmpty
-                  ? const Text(
-                      'No Tasks',
-                      style: TextStyle(color: Colors.redAccent, fontSize: 24),
-                    )
-                  : tasks_list(),
-        ),
-      ]),
-      // Center(
-      //   child: isLoading
-      //       ? CircularProgressIndicator()
-      //       : Tasks.isEmpty
-      //           ? const Text(
-      //               'No Tasks',
-      //               style:
-      //                   TextStyle(color: Colors.redAccent, fontSize: 24),
-      //             )
-      //           : tasks_list(),
-      // ),
+      body: BlocBuilder<CrudBloc, CrudState>(builder: (context, state) {
+        if (state is CrudInitial) {
+          context.read<CrudBloc>().add(const FetchTodos());
+        }
+        if (state is DisplayTodos) {
+          return Column(children: [
+            // calendarWidget(),
+            Expanded(
+              child: isLoading
+                  ? const CircularProgressIndicator()
+                  : tasks.isEmpty
+                      ? const Text(
+                          'No Tasks',
+                          style:
+                              TextStyle(color: Colors.redAccent, fontSize: 24),
+                        )
+                      : tasks_list(),
+            ),
+          ]);
+        }
+        return Container(
+          color: Colors.white,
+          child: const Center(child: CircularProgressIndicator()),
+        );
+      }),
       bottomNavigationBar: DotNavigationBar(
         currentIndex: _SelectedTab.values.indexOf(_selectedTab),
         onTap: _handleIndexChanged,
@@ -106,9 +106,9 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const AddTaskPage()));
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const AddTaskPage()));
           },
           backgroundColor: Colors.blueGrey,
           child: const Icon(Icons.add)),

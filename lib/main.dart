@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
-import 'package:todov2/stores/newtask_store.dart';
+import 'package:todov2/bloc/crud_bloc.dart';
+import 'package:todov2/pages/home_page.dart';
 
-import 'pages/home_page.dart';
+// import 'pages/home_page.dart';
 
 Color white = const Color(0xFFFFFFFF);
 
@@ -24,14 +26,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeDateFormatting('pt_BR', null);
 
-    return Provider<NewTaskStore>(
-      create: (_) => NewTaskStore(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => CrudBloc())
+      ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blueGrey,
-          ),
-          home: const HomePage()),
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primarySwatch: Colors.blueGrey,
+            ),
+            home: const HomePage()),
     );
   }
 }

@@ -71,6 +71,31 @@ class TaskDataBase {
         where: '${TaskFields.id} = ?', whereArgs: [task.id]);
   }
 
+  Future<Task> readTodo({required int id}) async {
+    final db = await instance.database;
+
+    final maps = await db.query(
+      tableTasks,
+      columns: TaskFields.values,
+      where: '${TaskFields.id} = ?',
+      whereArgs: [id],
+    );
+
+    if (maps.isNotEmpty) {
+      return Task.fromJson(maps.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
+  }
+
+  Future<List<Task>> readAllTodos() async {
+    final db = await instance.database;
+    const orderBy = '${TaskFields.time} ASC';
+    final result = await db.query(tableTasks, orderBy: orderBy);
+
+    return result.map((json) => Task.fromJson(json)).toList();
+  }
+
   Future<int> delete(int id) async {
     final db = await instance.database;
     return await db
