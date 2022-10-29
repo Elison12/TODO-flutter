@@ -12,7 +12,7 @@ class CrudBloc extends Bloc<CrudEvent, CrudState> {
     List<Task> tasks = [];
     on<AddTodo>((event, emit) async {
       await TaskDataBase.instance.create(Task(
-        id: event.id,
+        // id: event.id,
         title: event.title,
         description: event.description,
         createdTime: event.createdTime,
@@ -29,7 +29,7 @@ class CrudBloc extends Bloc<CrudEvent, CrudState> {
     });
 
     on<FetchSpecificTodo>((event, emit) async {
-      Task task = await TaskDataBase.instance.readTodo(id: event.id);
+      Task task = await TaskDataBase.instance.readTask(id: event.id);
       emit(DisplaySpecificTodo(task: task));
     });
 

@@ -1,23 +1,29 @@
 part of 'crud_bloc.dart';
 
+
+
 abstract class CrudEvent extends Equatable {
   const CrudEvent();
 }
 
 class AddTodo extends CrudEvent {
-  final int id;
+  // final int id;
   final String title;
   final String description;
   final DateTime createdTime;
 
   const AddTodo(
-      {required this.id,
+      {
+      // required this.id,
       required this.title,
       required this.description,
       required this.createdTime});
 
   @override
-  List<Object?> get props => [title, id, description, createdTime];
+  List<Object?> get props =>
+      // [title, id, description, createdTime];
+      [title, description, createdTime];
+
 }
 
 class UpdateTodo extends CrudEvent {

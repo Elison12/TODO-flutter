@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:mobx/mobx.dart';
-import 'package:provider/provider.dart';
 
 import 'package:todov2/db/tasks_database.dart';
 import '../bloc/crud_bloc.dart';
@@ -18,36 +16,10 @@ class AddTaskPage extends StatefulWidget {
 
 class _AddTaskPageState extends State<AddTaskPage> {
   final _formKey = GlobalKey<FormState>();
-  late bool isImportant;
-  late int number;
-  late String title;
-  late String description;
+
 
   final TextEditingController _title = TextEditingController();
   final TextEditingController _description = TextEditingController();
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-
-  //   _newTaskStore = Provider.of<NewTaskStore>(context);
-
-  //   disposer = autorun((_) {
-  //     Navigator.pop(context);
-  //   });
-  // }
-
-  @override
-  void initState() {
-    super.initState();
-    title = widget.task?.title ?? '';
-    description = widget.task?.description ?? '';
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -121,22 +93,22 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         _description.text.isNotEmpty) {
                       context.read<CrudBloc>().add(
                             AddTodo(
+                              // id:  1,
                               title: _title.text,
-                              id: 0,
                               description: _description.text,
                               createdTime: DateTime.now(),
                             ),
                           );
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         duration: Duration(seconds: 1),
-                        content: Text("todo added successfully"),
+                        content: Text("Tarefas adicionada !"),
                       ));
                       context.read<CrudBloc>().add(const FetchTodos());
                       Navigator.pop(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
-                            "title and description fields must not be blank"
+                            "titulo e descrição não podem ser vazias !"
                                 .toUpperCase()),
                       ));
                     }
@@ -147,48 +119,4 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ],
         ),
       );
-  Widget builderButton() {
-    final isFormValid = title.isNotEmpty && description.isNotEmpty;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: isFormValid ? null : Colors.grey.shade700),
-        onPressed: addOrUpdateNote,
-        child: const Text('Save'),
-      ),
-    );
-  }
-
-  void addOrUpdateNote() async {
-    final isValid = _formKey.currentState!.validate();
-
-    if (isValid) {
-      final isUpdating = widget.task != null;
-
-      if (isUpdating) {
-        await updateNote();
-      } else {
-        await addNote();
-      }
-      Navigator.of(context).pop();
-    }
-  }
-
-  Future updateNote() async {
-    final note = widget.task!.copy(title: title, description: description);
-    await TaskDataBase.instance.update(note);
-  }
-
-  Future addNote() async {
-    final note = Task(
-      title: title,
-      description: description,
-      createdTime: DateTime.now(),
-    );
-    await TaskDataBase.instance.create(note);
-    Navigator.of(context).pop();
-  }
 }

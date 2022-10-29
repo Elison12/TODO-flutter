@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
 import 'package:todov2/pages/addtask_page.dart';
-import '../db/tasks_database.dart';
-import '../models/task.dart';
 import '../widgets/taskcard_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,31 +17,11 @@ enum _SelectedTab { tasks, importants, plan, myday }
 
 class _HomePageState extends State<HomePage> {
   var _selectedTab = _SelectedTab.tasks;
-  late List<Task> tasks;
   bool isLoading = false;
 
   DateTime time = DateTime.now();
 
   late final String date;
-
-  @override
-  void initState() {
-    super.initState();
-    refreshTasks();
-  }
-
-  @override
-  void dispose() {
-    TaskDataBase.instance.close();
-    super.dispose();
-  }
-
-  Future refreshTasks() async {
-    setState(() => isLoading = true);
-    tasks = await TaskDataBase.instance.readAllTasks();
-
-    setState(() => isLoading = false);
-  }
 
   void _handleIndexChanged(int i) {
     setState(() {
@@ -76,18 +54,25 @@ class _HomePageState extends State<HomePage> {
         }
         if (state is DisplayTodos) {
           return Column(children: [
-            // calendarWidget(),
             Expanded(
-              child: isLoading
-                  ? const CircularProgressIndicator()
-                  : tasks.isEmpty
-                      ? const Text(
-                          'No Tasks',
-                          style:
-                              TextStyle(color: Colors.redAccent, fontSize: 24),
-                        )
-                      : tasks_list(),
-            ),
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : state.task.isEmpty
+                        ? const Text(
+                            'Sem tarefas',
+                            style: TextStyle(
+                                color: Colors.redAccent, fontSize: 24),
+                          )
+                        : ListView.separated(
+                            itemCount: state.task.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final task = state.task[index];
+                              return TaskCardWidget(
+                                  task: task, index: index, tasks: state.task);
+                            },
+                            separatorBuilder: (context, int index) =>
+                                const SizedBox(height: 8),
+                          )),
           ]);
         }
         return Container(
@@ -112,18 +97,6 @@ class _HomePageState extends State<HomePage> {
           },
           backgroundColor: Colors.blueGrey,
           child: const Icon(Icons.add)),
-    );
-  }
-
-  // ignore: non_constant_identifier_names
-  ListView tasks_list() {
-    return ListView.separated(
-      itemCount: tasks.length,
-      itemBuilder: (BuildContext context, int index) {
-        final task = tasks[index];
-        return TaskCardWidget(task: task, index: index, tasks: tasks);
-      },
-      separatorBuilder: (context, int index) => const SizedBox(height: 8),
     );
   }
 }

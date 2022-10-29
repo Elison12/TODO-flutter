@@ -41,10 +41,11 @@ class TaskDataBase {
     final db = await instance.database;
 
     final id = await db.insert(tableTasks, task.toJson());
+    print("task criada");
     return task.copy(id: id);
   }
 
-  Future<Task> readTask(int id) async {
+  Future<Task> readTask({required int id}) async {
     final db = await instance.database;
     final maps = await db.query(tableTasks,
         columns: TaskFields.values,
@@ -59,7 +60,7 @@ class TaskDataBase {
 
   Future<List<Task>> readAllTasks() async {
     final db = await instance.database;
-    final orderBy = '${TaskFields.time} ASC';
+    const orderBy = '${TaskFields.time} ASC';
 
     final result = await db.query(tableTasks, orderBy: orderBy);
     return result.map((json) => Task.fromJson(json)).toList();
@@ -69,31 +70,6 @@ class TaskDataBase {
     final db = await instance.database;
     return db.update(tableTasks, task.toJson(),
         where: '${TaskFields.id} = ?', whereArgs: [task.id]);
-  }
-
-  Future<Task> readTodo({required int id}) async {
-    final db = await instance.database;
-
-    final maps = await db.query(
-      tableTasks,
-      columns: TaskFields.values,
-      where: '${TaskFields.id} = ?',
-      whereArgs: [id],
-    );
-
-    if (maps.isNotEmpty) {
-      return Task.fromJson(maps.first);
-    } else {
-      throw Exception('ID $id not found');
-    }
-  }
-
-  Future<List<Task>> readAllTodos() async {
-    final db = await instance.database;
-    const orderBy = '${TaskFields.time} ASC';
-    final result = await db.query(tableTasks, orderBy: orderBy);
-
-    return result.map((json) => Task.fromJson(json)).toList();
   }
 
   Future<int> delete(int id) async {
