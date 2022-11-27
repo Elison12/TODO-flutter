@@ -94,6 +94,19 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const AddTaskPage()));
+            // showModalBottomSheet(
+            //     context: context,
+            //     shape: const RoundedRectangleBorder(
+            //         borderRadius:
+            //             BorderRadius.vertical(top: Radius.circular(25))),
+            //     builder: (context) {
+            //       return SizedBox(
+            //           height: 200,
+            //           child: Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             mainAxisSize: MainAxisSize.min,
+            //           ));
+            //     });
           },
           backgroundColor: Colors.blueGrey,
           child: const Icon(Icons.add)),
