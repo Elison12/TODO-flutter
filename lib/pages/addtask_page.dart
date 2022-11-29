@@ -4,6 +4,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../bloc/crud_bloc.dart';
 import '../models/task.dart';
+import '../widgets/horizontalCalendar_widget.dart';
 
 class AddTaskPage extends StatefulWidget {
   final Task? task;
@@ -19,7 +20,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        // resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
 
         // appBar: AppBar(
         //   leading: GestureDetector(
@@ -127,7 +128,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         Container(
           margin: const EdgeInsets.only(bottom: 470, left: 160),
           child: SvgPicture.asset("assets/img/tema.svg",
-              color: const Color(0xFF5464bb)),
+              color: const Color(0xFF939fdb)),
           // decoration: BoxDecoration(
           //     // image: DecorationImage(image: ExactAssetImage('assets/img/newtask.png'))
           //     image: DecorationImage(
@@ -155,8 +156,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(25)))),
         ListView(
-          padding: const EdgeInsets.only(top: 250, left: 8, right: 8),
+          padding: const EdgeInsets.only(top: 180, left: 8, right: 8),
           children: <Widget>[
+            calendarWidget(),
             Container(
                 decoration: ShapeDecoration(
                     shape: RoundedRectangleBorder(
