@@ -127,8 +127,13 @@ class _AddTaskPageState extends State<AddTaskPage> {
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 470, left: 160),
-          child: SvgPicture.asset("assets/img/tema.svg",
-              color: const Color(0xFF939fdb)),
+          child: Opacity(
+
+            opacity: 0.9,
+            child: SvgPicture.asset("assets/img/tema.svg",
+          
+                color: const Color(0xFF939fdb)),
+          ),
           // decoration: BoxDecoration(
           //     // image: DecorationImage(image: ExactAssetImage('assets/img/newtask.png'))
           //     image: DecorationImage(
@@ -149,7 +154,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             height: 100,
             margin: const EdgeInsets.only(bottom: 450, right: 170),
             child: const Text('Nova tarefa',
-                style: TextStyle(color: Color(0xFF939fdb), fontSize: 30))),
+                style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'PTSerif'))),
         Container(
             height: 490,
             decoration: const BoxDecoration(

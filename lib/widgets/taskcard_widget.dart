@@ -45,7 +45,7 @@ class TaskCardWidget extends StatelessWidget {
             alignment: Alignment.centerRight,
             constrainedAxis: Axis.vertical,
           ),
-          secondaryBackground:Container(
+          secondaryBackground: Container(
               child: Container(
                 margin: EdgeInsets.only(right: 50),
                 alignment: Alignment.centerRight,

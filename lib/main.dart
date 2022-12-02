@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
 import 'package:todov2/pages/home_page.dart';
-import 'package:todov2/pages/newhometst.dart';
-import 'package:todov2/pages/testsprogressbar.dart';
 
 import 'bloc/circularProgress/circularProgress_bloc.dart';
 
@@ -29,14 +26,13 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => CrudBloc()),
         BlocProvider(create: (context) => CircularProgressBloc())
-
       ],
       child: MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               // primarySwatch: Colors.blueGrey,
             ),
-            home: const ProgressBar()),
+            home: const HomePage()),
     );
   }
 }

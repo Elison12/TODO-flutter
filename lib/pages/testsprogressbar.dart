@@ -16,37 +16,55 @@ class _ProgressBarState extends State<ProgressBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Circulo de progresso"),
+        // title: const Text("Circulo de progresso"),
+        // leading: const Icon(Icons.clear_all, color: Color(0xFF939fdb)),
       ),
-      body: Center(
-        child: BlocConsumer<CircularProgressBloc, CircularProgressState>(
-            listener: (context, state) {
-          if (state is IncrementState) {
-            print("aumento");
-          } else if (state is DecrementState) {
-            print("diminuiu");
-          }
-        }, builder: (context, state) {
-          return CircularPercentIndicator(
-            radius: 60.0,
-            lineWidth: 13.0,
-            animation: true,
-            percent: state.progress,
-            center: Container(
-                height: 90,
-                decoration: const BoxDecoration(
-                    shape: BoxShape.circle, image: DecorationImage(image: AssetImage('assets/img/freddie.jpg')))),
-            // footer: Text("Sales this week", style: TextStyle(fontSize: 14),),
-            circularStrokeCap: CircularStrokeCap.square,
-            progressColor: Colors.redAccent,
-          );
-        }),
+      body: const Center(
+        child: circularprogress_widget(),
       ),
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () => context
-              .read<CircularProgressBloc>()
-              .add(ProgressIncrementEvent())),
+      // floatingActionButton: FloatingActionButton(
+      //     child: Icon(Icons.add),
+      //     onPressed: () => context
+      //         .read<CircularProgressBloc>()
+      //         .add(ProgressIncrementEvent())),
+    );
+  }
+}
+
+class circularprogress_widget extends StatelessWidget {
+  const circularprogress_widget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // margin: EdgeInsets.only(right: 50),
+      child: BlocConsumer<CircularProgressBloc, CircularProgressState>(
+          listener: (context, state) {
+        if (state is IncrementState) {
+          print("aumento");
+        } else if (state is DecrementState) {
+          print("diminuiu");
+        }
+      }, builder: (context, state) {
+        return CircularPercentIndicator(
+          radius: 30.0,
+          lineWidth: 7.0,
+          animation: true,
+          percent: state.progress,
+          circularStrokeCap: CircularStrokeCap.round,
+          progressColor: Color(0xFF939fdb),
+          center: Container(
+              height: 42,
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/img/freddie3.jpg')))),
+          // footer: Text("Sales this week", style: TextStyle(fontSize: 14),),
+        );
+      }),
     );
   }
 }
