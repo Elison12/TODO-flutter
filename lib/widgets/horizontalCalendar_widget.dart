@@ -6,7 +6,7 @@ Padding calendarWidget() {
     padding: const EdgeInsets.only(bottom: 15),
     child: FlutterDatePickerTimeline(
       itemHeight: 40,
-      selectedItemBackgroundColor: Color(0xFF939fdb),
+      selectedItemBackgroundColor: const Color(0xFFffbb58),
       startDate: DateTime(2022, 11, 25),
       endDate: DateTime(2022, 12, 15),
       initialSelectedDate: DateTime.now(),

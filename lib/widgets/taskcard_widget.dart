@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:todov2/models/constants_br.dart';
+import 'dart:math' as math;
+import '../models/constants_br.dart';
 import '../models/task.dart';
 
 final _lightscolors = [
-  Colors.amber.shade300,
-  Colors.lightGreen.shade300,
-  Colors.lightBlue.shade300,
-  Colors.orange.shade300,
-  Colors.pinkAccent.shade100,
-  Colors.tealAccent.shade100,
-  const Color(0xfffeebe5),
-  const Color(0xfffdf1db),
-  const Color(0xffd3f3f1)
+  // Colors.amber.shade300,
+  // Colors.lightGreen.shade300,
+  // Colors.lightBlue.shade300,
+  // Colors.orange.shade300,
+  // Colors.pinkAccent.shade100,
+  // Colors.tealAccent.shade100,
+  const Color(0xFFe8a14c),
+  const Color(0xFF9c5c8c),
+  const Color(0xFFefecf3),
+  const Color(0xFFeaa44e),
+  const Color(0xFFa81d23),
+  const Color(0xFFf4bb6c),
+  const Color(0xFFd088b8)
 ];
 
 class TaskCardWidget extends StatelessWidget {
@@ -19,13 +26,20 @@ class TaskCardWidget extends StatelessWidget {
   final int index;
   final List tasks;
 
-  const TaskCardWidget(
+  final ConstantsBR themedecoration = new ConstantsBR();
+
+  TaskCardWidget(
       {Key? key, required this.task, required this.index, required this.tasks})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final color = _lightscolors[index % _lightscolors.length];
+    // final color = _lightscolors[index % _lightscolors.length];
+    final cardColors = themedecoration.bohemiaRhapsodyColors[
+        index % themedecoration.bohemiaRhapsodyColors.length];
+
+    final iconDecoration =
+        themedecoration.iconsPath[index % themedecoration.iconsPath.length];
     final _createdTimeTask = task.createdTime.toString().substring(0, 11);
     return Padding(
       padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -71,34 +85,52 @@ class TaskCardWidget extends StatelessWidget {
               ),
             ),
             child: Container(
+              color: cardColors,
                 width: 350,
-                color: color,
                 //a cor da task é aqui
                 margin: const EdgeInsets.only(left: 0),
                 child: Padding(
                     padding: const EdgeInsets.all(30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          task.title,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Montserrat',
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              //01-11-2022
+                              task.title,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Cardo-Regular',
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 4),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Icon(
+                                    Icons.calendar_month,
+                                    color: Colors.blueGrey,
+                                  ),
+                                  Text(_createdTimeTask.substring(5),
+                                      style: const TextStyle(color: Colors.blueGrey, fontSize: 25)),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top:4),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Icon(Icons.calendar_month, color: Colors.blueGrey,),
-                              Text(_createdTimeTask, style: TextStyle(color: Colors.blueGrey)),
-                            ],
-                          ),
-                        )
+                            margin: EdgeInsets.only(left: 100),
+                            child: Transform.rotate(
+                                angle: math.pi / 4,
+                                child: Opacity(
+                                  opacity: 0.2,
+                                  child: iconDecoration,
+                                )))
                       ],
                     ))),
           ),

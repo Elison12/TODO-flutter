@@ -6,9 +6,11 @@ part 'circularProgress_state.dart';
 
 class CircularProgressBloc extends Bloc<CircularProgressEvent, CircularProgressState> {
   CircularProgressBloc() : super(ProgressInitial()) {
+    
     on<ProgressIncrementEvent>((event, emit) {
       emit(IncrementState(state.progress + 0.1));
     });
+
     on<ProgressDecrementEvent>((event, emit) {
       emit(DecrementState(state.progress - 0.1));
     });

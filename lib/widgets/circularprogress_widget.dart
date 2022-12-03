@@ -3,36 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:todov2/bloc/circularProgress/circularProgress_bloc.dart';
 
-class ProgressBar extends StatefulWidget {
-  const ProgressBar({super.key});
 
-  @override
-  State<ProgressBar> createState() => _ProgressBarState();
-}
-
-class _ProgressBarState extends State<ProgressBar> {
-  double contador = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // title: const Text("Circulo de progresso"),
-        // leading: const Icon(Icons.clear_all, color: Color(0xFF939fdb)),
-      ),
-      body: const Center(
-        child: circularprogress_widget(),
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //     child: Icon(Icons.add),
-      //     onPressed: () => context
-      //         .read<CircularProgressBloc>()
-      //         .add(ProgressIncrementEvent())),
-    );
-  }
-}
-
-class circularprogress_widget extends StatelessWidget {
-  const circularprogress_widget({
+class Circularprogresswidget extends StatelessWidget {
+  const Circularprogresswidget({
     Key? key,
   }) : super(key: key);
 
@@ -54,7 +27,7 @@ class circularprogress_widget extends StatelessWidget {
           animation: true,
           percent: state.progress,
           circularStrokeCap: CircularStrokeCap.round,
-          progressColor: Color(0xFF939fdb),
+          progressColor: const Color(0xFF939fdb),
           center: Container(
               height: 42,
               decoration: const BoxDecoration(

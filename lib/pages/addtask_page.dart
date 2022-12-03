@@ -123,16 +123,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
       children: <Widget>[
         Container(
           margin: EdgeInsets.zero,
-          color: const Color(0xFF3f51b5),
+          // color: const Color(0xFF3f51b5),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.topRight,
+                  colors: [
+                Color(0xFF862a69),
+                Color(0xFF913393),
+                Color(0xFFd279b1)
+              ])),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 470, left: 160),
           child: Opacity(
-
-            opacity: 0.9,
-            child: SvgPicture.asset("assets/img/tema.svg",
-          
-                color: const Color(0xFF939fdb)),
+            opacity: 0.4,
+            child: SvgPicture.asset("assets/img/wac.svg",
+                color: const Color(0xfffdc055)),
           ),
           // decoration: BoxDecoration(
           //     // image: DecorationImage(image: ExactAssetImage('assets/img/newtask.png'))
@@ -153,8 +160,12 @@ class _AddTaskPageState extends State<AddTaskPage> {
         Container(
             height: 100,
             margin: const EdgeInsets.only(bottom: 450, right: 170),
-            child: const Text('Nova tarefa',
-                style: TextStyle(color: Colors.white, fontSize: 30, fontFamily: 'PTSerif'))),
+            child: Opacity(
+              opacity: 0.9,
+              child: const Text('Nova tarefa',
+                  style: TextStyle(
+                      color: Color(0xFFffbb58), fontSize: 30, fontFamily: 'PTSerif')),
+            )),
         Container(
             height: 490,
             decoration: const BoxDecoration(

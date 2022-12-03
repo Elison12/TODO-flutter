@@ -10,12 +10,14 @@ part 'crud_state.dart';
 class CrudBloc extends Bloc<CrudEvent, CrudState> {
   CrudBloc() : super(CrudInitial()) {
     List<Task> tasks = [];
+    
     on<AddTodo>((event, emit) async {
       await TaskDataBase.instance.create(Task(
         // id: event.id,
         title: event.title,
         description: event.description,
         createdTime: event.createdTime,
+        // isDone: event.isDone
       ));
     });
 
