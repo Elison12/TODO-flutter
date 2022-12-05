@@ -85,7 +85,7 @@ class TaskCardWidget extends StatelessWidget {
               ),
             ),
             child: Container(
-              color: cardColors,
+                color: cardColors,
                 width: 350,
                 //a cor da task é aqui
                 margin: const EdgeInsets.only(left: 0),
@@ -98,14 +98,16 @@ class TaskCardWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              //01-11-2022
-                              task.title,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Cardo-Regular',
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold),
+                            Opacity(
+                              opacity: 0.8,
+                              child: Text(
+                                task.title,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Cardo-Regular',
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                             Container(
                               margin: const EdgeInsets.only(top: 4),
@@ -117,20 +119,21 @@ class TaskCardWidget extends StatelessWidget {
                                     color: Colors.blueGrey,
                                   ),
                                   Text(_createdTimeTask.substring(5),
-                                      style: const TextStyle(color: Colors.blueGrey, fontSize: 25)),
+                                      style: const TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontSize: 25)),
                                 ],
                               ),
                             )
                           ],
                         ),
-                        Container(
-                            margin: EdgeInsets.only(left: 100),
-                            child: Transform.rotate(
-                                angle: math.pi / 4,
-                                child: Opacity(
-                                  opacity: 0.2,
-                                  child: iconDecoration,
-                                )))
+                        Transform.rotate(
+                            angle: math.pi / 4,
+                            child: Opacity(
+                              opacity: 0.2,
+                              child: iconDecoration,
+                            ))
+                        // ),
                       ],
                     ))),
           ),

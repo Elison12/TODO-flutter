@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
 import 'package:todov2/pages/home_page.dart';
+import 'package:todov2/pages/pageteste.dart';
 
 import 'bloc/circularProgress/circularProgress_bloc.dart';
 
@@ -30,7 +31,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              // primarySwatch: Colors.blueGrey,
             ),
             home: const HomePage()),
     );

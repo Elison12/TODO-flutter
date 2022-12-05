@@ -139,6 +139,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
           child: Opacity(
             opacity: 0.4,
             child: SvgPicture.asset("assets/img/wac.svg",
+            height: 200,
+            width: 200,
                 color: const Color(0xfffdc055)),
           ),
           // decoration: BoxDecoration(

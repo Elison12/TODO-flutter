@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
 import 'package:todov2/pages/addtask_page.dart';
+import 'package:todov2/pages/datailstask_page.dart';
 import 'package:todov2/widgets/circularprogress_widget.dart';
 import '../widgets/taskcard_widget.dart';
 
@@ -154,10 +155,24 @@ class _HomePageState extends State<HomePage> {
                                   sliver: SliverList(
                                     delegate: SliverChildBuilderDelegate(
                                       (_, int index) {
-                                        return TaskCardWidget(
-                                            task: state.task[index],
-                                            index: index,
-                                            tasks: state.task);
+                                        return InkWell(
+                                          onTap: () {
+                                            context.read<CrudBloc>().add(
+                                                FetchSpecificTodo(
+                                                    id: state.task[index].id!));
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: ((context) =>
+                                                    DetailsTaskPage(index: index)),
+                                              ),
+                                            );
+                                          },
+                                          child: TaskCardWidget(
+                                              task: state.task[index],
+                                              index: index,
+                                              tasks: state.task),
+                                        );
                                       },
                                       childCount: state.task.length,
                                     ),
