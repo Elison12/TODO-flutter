@@ -49,7 +49,6 @@ class _HomePageState extends State<HomePage> {
         }
         if (state is DisplayTodos) {
           return Column(children: [
-            // Container(height: 40, child: Text('Minhas tarefas')),
             Expanded(
                 child: isLoading
                     ? const CircularProgressIndicator()

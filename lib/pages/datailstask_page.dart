@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
@@ -103,9 +105,8 @@ class DetailsTaskPage extends StatelessWidget {
                     color: const Color(0xFFf8f8f8)),
                 child: TextFormField(
                     initialValue: taskread.description,
-                    // controller: _newdescription,
                     enabled: false,
-                    // controller: _description,
+                    style: TextStyle(fontSize: 20),
                     minLines: 1,
                     maxLines: 5,
                     decoration: InputDecoration(

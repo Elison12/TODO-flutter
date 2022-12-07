@@ -13,7 +13,6 @@ class CrudBloc extends Bloc<CrudEvent, CrudState> {
     
     on<AddTodo>((event, emit) async {
       await TaskDataBase.instance.create(Task(
-        // id: event.id,
         title: event.title,
         description: event.description,
         createdTime: event.createdTime,
@@ -36,7 +35,7 @@ class CrudBloc extends Bloc<CrudEvent, CrudState> {
     });
 
     on<DeleteTodo>((event, emit) async {
-      await TaskDataBase.instance.delete(event.id);
+      await TaskDataBase.instance.delete(id: event.id);
       add(const FetchTodos());
     });
   }

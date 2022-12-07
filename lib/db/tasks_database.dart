@@ -72,7 +72,7 @@ class TaskDataBase {
         where: '${TaskFields.id} = ?', whereArgs: [task.id]);
   }
 
-  Future<int> delete(int id) async {
+  Future<int> delete({required int id}) async {
     final db = await instance.database;
     return await db
         .delete(tableTasks, where: '${TaskFields.id} = ?', whereArgs: [id]);
