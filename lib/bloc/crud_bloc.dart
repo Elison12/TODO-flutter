@@ -16,6 +16,7 @@ class CrudBloc extends Bloc<CrudEvent, CrudState> {
         title: event.title,
         description: event.description,
         createdTime: event.createdTime,
+        colortheme: event.colortheme,
         // isDone: event.isDone
       ));
     });

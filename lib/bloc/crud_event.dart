@@ -11,18 +11,20 @@ class AddTodo extends CrudEvent {
   final String title;
   final String description;
   final DateTime createdTime;
+  final String colortheme;
 
   const AddTodo(
       {
       required this.title,
       required this.description,
       required this.createdTime,
+      required this.colortheme
       }
   );
 
   @override
   List<Object?> get props =>
-      [title, description, createdTime];
+      [title, description, createdTime, colortheme];
 
 }
 

@@ -1,34 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:todov2/bloc/crud_bloc.dart';
 import 'package:todov2/models/constants_br.dart';
+import 'package:todov2/stores/counterprogress.dart';
 import 'dart:math' as math;
 import '../bloc/crud_bloc.dart';
-import '../models/constants_br.dart';
 import '../models/task.dart';
 
-final _lightscolors = [
-  const Color(0xFFe8a14c),
-  const Color(0xFF9c5c8c),
-  const Color(0xFFefecf3),
-  const Color(0xFFeaa44e),
-  const Color(0xFFa81d23),
-  const Color(0xFFf4bb6c),
-  const Color(0xFFd088b8)
-];
-
-class TaskCardWidget extends StatelessWidget {
+class TaskCardMobxWidget extends StatelessWidget {
   final Task task;
   final int index;
   final List tasks;
 
+  CounterProgress counter = CounterProgress();
+  
   final ConstantsBR themedecoration = new ConstantsBR();
 
-  TaskCardWidget(
-      {Key? key, required this.task, required this.index, required this.tasks})
+  TaskCardMobxWidget(
+      {Key? key, required this.task, required this.index, required this.tasks, required this.counter})
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +44,10 @@ class TaskCardWidget extends StatelessWidget {
                     .read<CrudBloc>()
                     .add(DeleteTodo(id: state.task[index].id!));
                 tasks.remove(index);
+
+                // counter.tasks.remove(state.task[index].id!);
+                counter.removeItem(state.task[index]);
+                
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     behavior: SnackBarBehavior.floating,
                     content: Text("Concluída")));
@@ -87,8 +82,7 @@ class TaskCardWidget extends StatelessWidget {
                   ),
                 ),
                 child: Container(
-                    color: Color(int.parse(task.colortheme)),
-                    // color: ColorUtils.stringToColor(task.colortheme),
+                    color: cardColors,
                     width: 350,
                     //a cor da task é aqui
                     margin: const EdgeInsets.only(left: 0),

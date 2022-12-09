@@ -61,7 +61,8 @@ class DetailsTaskPage extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.topRight,
                   colors: [
-                themeColor,
+                // Color(taskread.colortheme),
+                Color(int.parse(taskread.colortheme)),
                 // Color(0xFF862a69),
                 Color(0xFF913393),
                 Color(0xFFd279b1)
@@ -205,7 +206,8 @@ class DetailsTaskPage extends StatelessWidget {
                                                       id: taskread.id,
                                                       title: taskread.title,
                                                       description: _newdescription.text,
-                                                      createdTime: taskread.createdTime
+                                                      createdTime: taskread.createdTime,
+                                                      colortheme: taskread.colortheme
                                                   )
                                               )
                                           );

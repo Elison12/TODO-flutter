@@ -32,7 +32,8 @@ class TaskDataBase {
       ${TaskFields.id} $idType, 
       ${TaskFields.title} $textType,
       ${TaskFields.description} $textType,
-      ${TaskFields.time} $textType
+      ${TaskFields.time} $textType,
+      ${TaskFields.colortheme} $textType
     )
     ''');
   }

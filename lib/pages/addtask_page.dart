@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../bloc/crud_bloc.dart';
+import '../models/constants_br.dart';
 import '../models/task.dart';
+import '../widgets/colorpicker_widget.dart';
 import '../widgets/horizontalCalendar_widget.dart';
 
 class AddTaskPage extends StatefulWidget {
@@ -17,7 +19,10 @@ class AddTaskPage extends StatefulWidget {
 class _AddTaskPageState extends State<AddTaskPage> {
   final TextEditingController _title = TextEditingController();
   final TextEditingController _description = TextEditingController();
-
+  late Color _colortheme;
+  
+  ConstantsBR colorspicker = ConstantsBR();
+  
   @override
   Widget build(BuildContext context) => Scaffold(
         resizeToAvoidBottomInset: false,
@@ -139,9 +144,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           child: Opacity(
             opacity: 0.4,
             child: SvgPicture.asset("assets/img/wac.svg",
-            height: 200,
-            width: 200,
-                color: const Color(0xfffdc055)),
+                height: 200, width: 200, color: const Color(0xfffdc055)),
           ),
           // decoration: BoxDecoration(
           //     // image: DecorationImage(image: ExactAssetImage('assets/img/newtask.png'))
@@ -166,7 +169,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
               opacity: 0.9,
               child: const Text('Nova tarefa',
                   style: TextStyle(
-                      color: Color(0xFFffbb58), fontSize: 30, fontFamily: 'PTSerif')),
+                      color: Color(0xFFffbb58),
+                      fontSize: 30,
+                      fontFamily: 'PTSerif')),
             )),
         Container(
             height: 490,
@@ -204,21 +209,34 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(14))))),
-            Container(
-              margin: const EdgeInsets.only(right: 300),
-              child: IconButton(
-                onPressed: () {
-                  DatePicker.showDatePicker(context,
-                      showTitleActions: true,
-                      minTime: DateTime.now(),
-                      maxTime: DateTime(2022, 12, 12), onChanged: (date) {
-                    print('change $date');
-                  }, onConfirm: (date) {
-                    print('confirm $date');
-                  }, currentTime: DateTime.now(), locale: LocaleType.pt);
-                },
-                icon: const Icon(Icons.calendar_month),
-              ),
+            // Container(
+            //   margin: const EdgeInsets.only(right: 300),
+            //   child: IconButton(
+            //     onPressed: () {
+            //       DatePicker.showDatePicker(context,
+            //           showTitleActions: true,
+            //           minTime: DateTime.now(),
+            //           maxTime: DateTime(2022, 12, 12), onChanged: (date) {
+            //         print('change $date');
+            //       }, onConfirm: (date) {
+            //         print('confirm $date');
+            //       }, currentTime: DateTime.now(), locale: LocaleType.pt);
+            //     },
+            //     icon: const Icon(Icons.calendar_month),
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: ColorPickerWidget(
+                  availableColors: colorspicker.bohemiaRhapsodyColors,
+                  circleItem: true,
+                  initialColor: colorspicker.bohemiaRhapsodyColors[0],
+                  onSelectColor: (value) {
+                    setState(() {
+                      _colortheme = value;
+                      print(_colortheme);
+                    });
+                  }),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -258,6 +276,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                 title: _title.text,
                                 description: _description.text,
                                 createdTime: DateTime.now(),
+                                // Color(0xffff910f)
+                                colortheme:  _colortheme.toString().substring(6, 16)           // colortheme: v
                               ),
                             );
                         ScaffoldMessenger.of(context)

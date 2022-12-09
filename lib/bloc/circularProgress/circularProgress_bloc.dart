@@ -4,9 +4,10 @@ import 'package:equatable/equatable.dart';
 part 'circularProgress_event.dart';
 part 'circularProgress_state.dart';
 
-class CircularProgressBloc extends Bloc<CircularProgressEvent, CircularProgressState> {
+class CircularProgressBloc
+    extends Bloc<CircularProgressEvent, CircularProgressState> {
+  
   CircularProgressBloc() : super(ProgressInitial()) {
-    
     on<ProgressIncrementEvent>((event, emit) {
       emit(IncrementState(state.progress + 0.1));
     });
