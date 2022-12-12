@@ -1,46 +1,63 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:todov2/stores/counterprogress.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:todov2/bloc/circularProgress/circularProgress_bloc.dart';
+import 'package:todov2/bloc/crud_bloc.dart';
 
-class MyWidget extends StatefulWidget {
-  
-  MyWidget({super.key});
+import '../models/task.dart';
 
-  @override
-  State<MyWidget> createState() => _MyWidgetState();
-}
 
-class _MyWidgetState extends State<MyWidget> {
-  
-  CounterProgress counter = CounterProgress();
-  
+class CircularCrud extends StatelessWidget {
+
+  const CircularCrud({
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-        child: Observer(
-            builder: (_) => CircularPercentIndicator(
-                  radius: 30.0,
-                  lineWidth: 7.0,
-                  animation: true,
-                  percent: counter.testando.length / 10,
-                  circularStrokeCap: CircularStrokeCap.round,
-                  progressColor: const Color(0xFF939fdb),
-                  center: Container(
-                      height: 42,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: AssetImage('assets/img/freddie3.jpg')))),
-                  // footer: Text("Sales this week", style: TextStyle(fontSize: 14),),
-                )))
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        counter.addtestando(100);
+    return Container(
+      child: BlocBuilder<CrudBloc, CrudState>(
+      builder: (context, state) {
+        if (state is DisplayTodos) {
+          return CircularPercentIndicator(
+            radius: 30.0,
+            lineWidth: 7.0,
+            animation: true,
+            percent: state.task.length/10,
+            circularStrokeCap: CircularStrokeCap.round,
+            progressColor: const Color(0xFF939fdb),
+            center: Container(
+              height: 42,
+              decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage('assets/img/freddie3.jpg')))),
+          // footer: Text("Sales this week", style: TextStyle(fontSize: 14),)
+          );
+          
+        }
+        return Container(
+          color: const Color(0xFF939fdb),
+          child: const Center(child: CircularProgressIndicator()),
+        );
+        // List<Task> tasks = state.pendingTasks;
+        // return CircularPercentIndicator(
+        //   radius: 30.0,
+        //   lineWidth: 7.0,
+        //   animation: true,
+        //   percent: tasks.length/10,
+        //   circularStrokeCap: CircularStrokeCap.round,
+        //   progressColor: const Color(0xFF939fdb),
+        //   center: Container(
+        //       height: 42,
+        //       decoration: const BoxDecoration(
+        //           shape: BoxShape.circle,
+        //           image: DecorationImage(
+        //               fit: BoxFit.cover,
+        //               image: AssetImage('assets/img/freddie3.jpg')))),
+        //   // footer: Text("Sales this week", style: TextStyle(fontSize: 14),),
+        // );
       }),
     );
   }

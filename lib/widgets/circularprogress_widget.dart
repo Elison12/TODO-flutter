@@ -5,6 +5,7 @@ import 'package:todov2/bloc/circularProgress/circularProgress_bloc.dart';
 
 
 class Circularprogresswidget extends StatelessWidget {
+
   const Circularprogresswidget({
     Key? key,
   }) : super(key: key);
@@ -12,7 +13,6 @@ class Circularprogresswidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.only(right: 50),
       child: BlocConsumer<CircularProgressBloc, CircularProgressState>(
           listener: (context, state) {
         if (state is IncrementState) {
@@ -20,12 +20,13 @@ class Circularprogresswidget extends StatelessWidget {
         } else if (state is DecrementState) {
           print("diminuiu");
         }
-      }, builder: (context, state) {
+      }, 
+      builder: (context, state) {
         return CircularPercentIndicator(
           radius: 30.0,
           lineWidth: 7.0,
           animation: true,
-          percent: state.progress,
+          percent: state.progress/10,
           circularStrokeCap: CircularStrokeCap.round,
           progressColor: const Color(0xFF939fdb),
           center: Container(

@@ -4,7 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
 import 'package:todov2/pages/addtask_page.dart';
 import 'package:todov2/pages/datailstask_page.dart';
+import 'package:todov2/stores/counterprogress.dart';
 import 'package:todov2/widgets/circularprogress_widget.dart';
+import '../widgets/cirularteste.dart';
 import '../widgets/taskcard_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +22,8 @@ class _HomePageState extends State<HomePage> {
   DateTime time = DateTime.now();
 
   late final String date;
+
+  CounterProgress counter = CounterProgress();
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +47,13 @@ class _HomePageState extends State<HomePage> {
       //         icon: const Icon(Icons.search, color: Colors.blueGrey),
       //       )
       //     ]),
-      body: BlocBuilder<CrudBloc, CrudState>(builder: (context, state) {
+      body: BlocBuilder<CrudBloc, CrudState>(
+        builder: (context, state) {
         if (state is CrudInitial) {
           context.read<CrudBloc>().add(const FetchTodos());
         }
         if (state is DisplayTodos) {
+          print(state.task.length);
           return Column(children: [
             Expanded(
                 child: isLoading
@@ -88,7 +94,8 @@ class _HomePageState extends State<HomePage> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: const <Widget>[
-                                    Circularprogresswidget()
+                                    // Circularprogresswidget()
+                                    CircularCrud()
                                   ],
                                 ),
                                 background: ClipRRect(

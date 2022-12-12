@@ -2,12 +2,14 @@ part of 'crud_bloc.dart';
 
 
 abstract class CrudState extends Equatable {
-  const CrudState();
+  final List<Task> pendingTasks;
+  
+  const CrudState({this.pendingTasks = const <Task>[]});
 }
 
 class CrudInitial extends CrudState {
   @override
-  List<Object> get props => [];
+  List<Object> get props => [pendingTasks];
 }
 
 class DisplayTodos extends CrudState {

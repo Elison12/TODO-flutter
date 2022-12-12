@@ -20,7 +20,7 @@ class CircularProgressMobxWidget extends StatelessWidget {
                   radius: 30.0,
                   lineWidth: 7.0,
                   animation: true,
-                  percent: counter.tasks.length / 100,
+                  percent: counter.tasks.length / 10,
                   circularStrokeCap: CircularStrokeCap.round,
                   progressColor: const Color(0xFF939fdb),
                   center: Container(
