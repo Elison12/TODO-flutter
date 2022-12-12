@@ -72,8 +72,8 @@ class DetailsTaskPage extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 470, left: 160),
           child: Opacity(
             opacity: 0.4,
-            child: SvgPicture.asset("assets/img/wac.svg",
-                height: 200, width: 200, color: const Color(0xfffdc055)),
+            child: SvgPicture.asset("assets/img/back.svg",
+                height: 180, width: 180, color: const Color(0xfffdc055)),
           ),
         ),
         Container(

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:todov2/bloc/circularProgress/circularProgress_bloc.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
-
 import '../models/task.dart';
+
 
 
 class CircularCrud extends StatelessWidget {

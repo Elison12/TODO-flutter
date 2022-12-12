@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
 import 'package:todov2/pages/addtask_page.dart';
 import 'package:todov2/pages/datailstask_page.dart';
 import 'package:todov2/stores/counterprogress.dart';
-import 'package:todov2/widgets/circularprogress_widget.dart';
+import 'package:todov2/widgets/slidecarrossel_widget.dart';
+import '../animations/scaletransition.dart';
+import '../animations/slidetransitionone.dart';
+import '../widgets/calendarhome_widget.dart';
 import '../widgets/cirularteste.dart';
 import '../widgets/taskcard_widget.dart';
+import 'carrosselteste.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -27,6 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(DateTime.now());
     return Scaffold(
       // extendBody: true,
       // backgroundColor: const Color(0xFF939fdb),
@@ -47,13 +53,12 @@ class _HomePageState extends State<HomePage> {
       //         icon: const Icon(Icons.search, color: Colors.blueGrey),
       //       )
       //     ]),
-      body: BlocBuilder<CrudBloc, CrudState>(
-        builder: (context, state) {
+      body: BlocBuilder<CrudBloc, CrudState>(builder: (context, state) {
         if (state is CrudInitial) {
           context.read<CrudBloc>().add(const FetchTodos());
         }
         if (state is DisplayTodos) {
-          print(state.task.length);
+          // print(state.task.length);
           return Column(children: [
             Expanded(
                 child: isLoading
@@ -93,9 +98,37 @@ class _HomePageState extends State<HomePage> {
                                     start: 38, bottom: 20),
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
-                                  children: const <Widget>[
+                                  children: <Widget>[
                                     // Circularprogresswidget()
-                                    CircularCrud()
+                                    const CircularCrud(),
+                                    // SlideCarrossel(),
+                                    // SlideCarrossel()
+                                    // Padding(
+                                    //   padding: const EdgeInsets.only(left: 30),
+                                    //   child: CarrosselTest(),
+                                    // )
+                                    // Text(DateTime.now().toString().substring(8, 11), style: TextStyle(color: Colors.amber))
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 40),
+                                      child: Text(
+                                          DateFormat("EEEE", "pt_BR")
+                                              .format(time)
+                                              .substring(0, 7)
+                                              .toUpperCase(),
+                                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
+                                    ),
+                                    Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 2),
+                                        child: Text(
+                                            DateTime.now()
+                                                .toString()
+                                                .substring(8, 11),
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                                color: Colors.amber, fontWeight: FontWeight.w800))),
+
+                                    // CalendarHome()
                                   ],
                                 ),
                                 background: ClipRRect(
@@ -167,12 +200,15 @@ class _HomePageState extends State<HomePage> {
                                                 FetchSpecificTodo(
                                                     id: state.task[index].id!));
                                             Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: ((context) =>
-                                                    DetailsTaskPage(index: index)),
-                                              ),
-                                            );
+                                                context,
+                                                SlideTransition1(
+                                                    DetailsTaskPage(
+                                                        index: index))
+                                                // MaterialPageRoute
+                                                //   builder: ((context) =>
+                                                //       DetailsTaskPage(index: index)),
+                                                // ),
+                                                );
                                           },
                                           child: TaskCardWidget(
                                               task: state.task[index],
@@ -205,8 +241,9 @@ class _HomePageState extends State<HomePage> {
       // ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const AddTaskPage()));
+            Navigator.of(context).push(ScalaTransition(const AddTaskPage())
+                // MaterialPageRoute(builder: (context) => const AddTaskPage())
+                );
             // showModalBottomSheet(
             //     context: context,
             //     shape: const RoundedRectangleBorder(
