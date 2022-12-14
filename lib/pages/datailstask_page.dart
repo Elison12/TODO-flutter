@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:todov2/bloc/crud_bloc.dart';
@@ -22,19 +20,6 @@ class DetailsTaskPage extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   leading: IconButton(
-      //     icon: const Icon(
-      //       Icons.arrow_back,
-      //     ),
-      //     onPressed: () {
-      //       context.read<CrudBloc>().add(const FetchTodos());
-      //       Navigator.pop(context);
-      //     },
-      //   ),
-      // ),
       body: SafeArea(child: BlocBuilder<CrudBloc, CrudState>(
         builder: (context, state) {
           if (state is DisplaySpecificTodo) {
@@ -61,9 +46,7 @@ class DetailsTaskPage extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.topRight,
                   colors: [
-                // Color(taskread.colortheme),
                 Color(int.parse(taskread.colortheme)),
-                // Color(0xFF862a69),
                 Color(0xFF913393),
                 Color(0xFFd279b1)
               ])),
@@ -87,8 +70,6 @@ class DetailsTaskPage extends StatelessWidget {
                       fontSize: 30,
                       fontFamily: 'PTSerif')),
             )),
-        // margin: EdgeInsets.only(bottom: 570, right: 290),
-
         Container(
             height: 490,
             decoration: const BoxDecoration(
@@ -184,7 +165,8 @@ class DetailsTaskPage extends StatelessWidget {
                                                         14))))),
                               ),
                               Padding(
-                                  padding: const EdgeInsets.only(left:8.0, right: 8.0, top: 40),
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0, top: 40),
                                   child: BlocBuilder<CrudBloc, CrudState>(
                                       builder: (context, state) {
                                     return ElevatedButton(
@@ -205,19 +187,20 @@ class DetailsTaskPage extends StatelessWidget {
                                                   task: Task(
                                                       id: taskread.id,
                                                       title: taskread.title,
-                                                      description: _newdescription.text,
-                                                      createdTime: taskread.createdTime,
-                                                      colortheme: taskread.colortheme
-                                                  )
-                                              )
-                                          );
+                                                      description:
+                                                          _newdescription.text,
+                                                      createdTime:
+                                                          taskread.createdTime,
+                                                      colortheme: taskread
+                                                          .colortheme)));
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(const SnackBar(
                                                   duration:
                                                       Duration(seconds: 1),
                                                   content: Text(
                                                       "Tarefa atualizada !")));
-                                          Navigator.of(context).popUntil((route) => route.isFirst);
+                                          Navigator.of(context).popUntil(
+                                              (route) => route.isFirst);
                                           context
                                               .read<CrudBloc>()
                                               .add(const FetchTodos());

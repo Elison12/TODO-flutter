@@ -6,13 +6,10 @@ import 'package:todov2/bloc/crud_bloc.dart';
 import 'package:todov2/pages/addtask_page.dart';
 import 'package:todov2/pages/datailstask_page.dart';
 import 'package:todov2/stores/counterprogress.dart';
-import 'package:todov2/widgets/slidecarrossel_widget.dart';
 import '../animations/scaletransition.dart';
 import '../animations/slidetransitionone.dart';
-import '../widgets/calendarhome_widget.dart';
 import '../widgets/cirularteste.dart';
 import '../widgets/taskcard_widget.dart';
-import 'carrosselteste.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,45 +29,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(DateTime.now());
     return Scaffold(
-      // extendBody: true,
-      // backgroundColor: const Color(0xFF939fdb),
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //     elevation: 0.0,
-      //     backgroundColor: Colors.white,
-      //     title: Text(DateFormat("EEEE", "pt_BR").format(time),
-      //         style: const TextStyle(
-      //           fontFamily: "Cardo-regular",
-      //           color: Colors.blueGrey,
-      //           fontWeight: FontWeight.bold,
-      //           fontSize: 25,
-      //         )),
-      //     actions: [
-      //       IconButton(
-      //         onPressed: () {},
-      //         icon: const Icon(Icons.search, color: Colors.blueGrey),
-      //       )
-      //     ]),
       body: BlocBuilder<CrudBloc, CrudState>(builder: (context, state) {
         if (state is CrudInitial) {
           context.read<CrudBloc>().add(const FetchTodos());
         }
         if (state is DisplayTodos) {
-          // print(state.task.length);
           return Column(children: [
             Expanded(
                 child: isLoading
                     ? const CircularProgressIndicator()
-                    // : state.task.isEmpty
-                    //     ? const Center(
-                    //         child: Text(
-                    //           'Sem tarefas',
-                    //           style: TextStyle(
-                    //               color: Colors.redAccent, fontSize: 24),
-                    //         ),
-                    //       )
                     : CustomScrollView(
                         slivers: <Widget>[
                           //2
@@ -99,36 +68,28 @@ class _HomePageState extends State<HomePage> {
                                 title: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
-                                    // Circularprogresswidget()
                                     const CircularCrud(),
-                                    // SlideCarrossel(),
-                                    // SlideCarrossel()
-                                    // Padding(
-                                    //   padding: const EdgeInsets.only(left: 30),
-                                    //   child: CarrosselTest(),
-                                    // )
-                                    // Text(DateTime.now().toString().substring(8, 11), style: TextStyle(color: Colors.amber))
                                     Padding(
                                       padding: const EdgeInsets.only(left: 40),
                                       child: Text(
-                                          DateFormat("EEEE", "pt_BR")
+                                          DateFormat("EEE", "pt_BR")
                                               .format(time)
-                                              .substring(0, 7)
+                                              // .substring(0, 7)
                                               .toUpperCase(),
-                                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal)),
                                     ),
                                     Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 2),
+                                        padding: const EdgeInsets.only(left: 2),
                                         child: Text(
                                             DateTime.now()
                                                 .toString()
                                                 .substring(8, 11),
                                             style: const TextStyle(
-                                              fontSize: 12,
-                                                color: Colors.amber, fontWeight: FontWeight.w800))),
-
-                                    // CalendarHome()
+                                                fontSize: 12,
+                                                color: Colors.amber,
+                                                fontWeight: FontWeight.w800))),
                                   ],
                                 ),
                                 background: ClipRRect(
@@ -137,12 +98,9 @@ class _HomePageState extends State<HomePage> {
                                       bottomRight: Radius.circular(25.0)),
                                   child: Container(
                                     decoration: const BoxDecoration(
-                                        // color: Color(0xFF3f51b5)
-                                        // color: Color(0xFF8b3694)
                                         gradient: LinearGradient(
                                             begin: Alignment.topLeft,
                                             end: Alignment.bottomRight,
-                                            // stops: [0.3, 1],
                                             colors: [
                                           Color(0xFF862a69),
                                           Color(0xFF913393),
@@ -160,7 +118,6 @@ class _HomePageState extends State<HomePage> {
                               padding: EdgeInsets.only(top: 15, left: 15),
                               child: Text("Minhas Tarefas",
                                   style: TextStyle(
-                                      // color: Color(0xFF939fdb),
                                       color: Color(0xFFffbb58),
                                       fontSize: 25,
                                       fontWeight: FontWeight.bold,
@@ -203,12 +160,7 @@ class _HomePageState extends State<HomePage> {
                                                 context,
                                                 SlideTransition1(
                                                     DetailsTaskPage(
-                                                        index: index))
-                                                // MaterialPageRoute
-                                                //   builder: ((context) =>
-                                                //       DetailsTaskPage(index: index)),
-                                                // ),
-                                                );
+                                                        index: index)));
                                           },
                                           child: TaskCardWidget(
                                               task: state.task[index],
@@ -229,36 +181,10 @@ class _HomePageState extends State<HomePage> {
           child: const Center(child: CircularProgressIndicator()),
         );
       }),
-      // bottomNavigationBar: DotNavigationBar(
-      //   currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-      //   onTap: _handleIndexChanged,
-      //   items: [
-      //     DotNavigationBarItem(icon: const Icon(Icons.task_alt)),
-      //     DotNavigationBarItem(icon: const Icon(Icons.grade)),
-      //     DotNavigationBarItem(icon: const Icon(Icons.calendar_month)),
-      //     DotNavigationBarItem(icon: const Icon(Icons.light_mode)),
-      //   ],
-      // ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).push(ScalaTransition(const AddTaskPage())
-                // MaterialPageRoute(builder: (context) => const AddTaskPage())
-                );
-            // showModalBottomSheet(
-            //     context: context,
-            //     shape: const RoundedRectangleBorder(
-            //         borderRadius:
-            //             BorderRadius.vertical(top: Radius.circular(25))),
-            //     builder: (context) {
-            //       return SizedBox(
-            //           height: 200,
-            //           child: Column(
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             mainAxisSize: MainAxisSize.min,
-            //           ));
-            //     });
+            Navigator.of(context).push(ScalaTransition(const AddTaskPage()));
           },
-          // backgroundColor: const Color(0xFF3f51b5),
           backgroundColor: const Color(0xFF8b3694),
           child: const Icon(Icons.add)),
     );

@@ -11,7 +11,6 @@ class CalendarHome extends StatelessWidget {
       child: Column(
         children: [
           Container(height: 20, width: 50, child: Text(DateTime.now().toString())),
-          // Container(height: 20, width: 50, child: Text(DateTime.now().toString())),
         ],
       ),
     );
